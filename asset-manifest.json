@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/code-runner/static/js/main.605fc543.js",
+    "index.html": "/code-runner/index.html",
+    "main.605fc543.js.map": "/code-runner/static/js/main.605fc543.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.605fc543.js"
+  ]
+}
