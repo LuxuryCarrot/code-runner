@@ -1,0 +1,12 @@
+{
+    "name": "code-runner",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "node code-runner-server/server.js",
+      "client": "npm start --prefix code-runner-client",
+      "client:install": "npm install --prefix code-runner-client",
+      "server": "npm start --prefix code-runner-server",
+      "server:install": "npm install --prefix code-runner-server",
+      "install": "npm run client:install && npm run server:install"
+    }
+  }
