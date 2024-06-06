@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # v2에서 v3으로 업데이트
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3  # v2에서 v3으로 업데이트
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'  # Node.js 20으로 업데이트
+          node-version: '20'
 
       - name: Install dependencies
         run: |
@@ -27,6 +27,11 @@ jobs:
         run: |
           cd code-runner-client
           npm run build
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "dongkeun.lee@gmail.com"
+          git config --global user.name "Luxurycarrot"
 
       - name: Deploy to GitHub Pages
         env:
