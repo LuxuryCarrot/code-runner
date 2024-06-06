@@ -27,7 +27,7 @@ app.post('/run', (req, res) => {
             return;
         }
 
-        const command = language === 'python' ? `py "${tempFilePath}"` : `node "${tempFilePath}"`;
+        const command = language === 'python' ? `python3 "${tempFilePath}"` : `node "${tempFilePath}"`;
 
         console.log(`Executing code with command: ${command}`);
 
