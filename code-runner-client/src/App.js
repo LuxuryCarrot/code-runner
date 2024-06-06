@@ -32,7 +32,7 @@ const App = ({ darkMode, setDarkMode }) => {
     const runCode = async () => {
         setIsLoading(true); // 로딩 시작
         try {
-            const response = await axios.post('http://localhost:3001/run', { code, language });
+            const response = await axios.post('https://code-runner-o7nm.onrender.com/run', { code, language });
             setResult(response.data.output || response.data.error);
             setExecutionTime(response.data.executionTime);
             setMemoryUsed(response.data.memoryUsed);
