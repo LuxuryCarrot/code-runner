@@ -31,11 +31,12 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.email "dongkeun.lee@gmail.com"
-          git config --global user.name "Luxurycarrot"
+          git config --global user.name "LuxuryCarrot"
 
       - name: Deploy to GitHub Pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd code-runner-client
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           npm run deploy
