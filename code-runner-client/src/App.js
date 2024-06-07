@@ -6,6 +6,7 @@ import {
 } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import './App.css';
 
 const App = ({ darkMode, setDarkMode }) => {
     const [code, setCode] = useState('');
@@ -95,8 +96,8 @@ const App = ({ darkMode, setDarkMode }) => {
                     />
                 </Paper>
                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <IconButton color="primary" onClick={runCode} sx={{ border: '2px solid black' }}>
-                        <ArrowForwardIcon />
+                    <IconButton color="primary" onClick={runCode} sx={{ border: '2px solid black' }} className="icon-button-hover">
+                        <ArrowForwardIcon className="icon-animation" />
                     </IconButton>
                     <Typography variant="body1">Run!</Typography>
                 </Box>
