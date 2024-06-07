@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
     AppBar, Toolbar, Typography, Select, MenuItem, FormControl,
@@ -13,22 +13,10 @@ const App = ({ darkMode, setDarkMode }) => {
     const [result, setResult] = useState('');
     const [executionTime, setExecutionTime] = useState(null);
     const [memoryUsed, setMemoryUsed] = useState(null);
-    const [editorHeight, setEditorHeight] = useState(window.innerHeight - 200); // 에디터 초기 높이 설정
     const [fontSize, setFontSize] = useState(14); // 기본 폰트 크기
     const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+    const editorRef = useRef(null);
 
-    // 창 크기 변경 이벤트 처리
-    useEffect(() => {
-        const handleResize = () => {
-            setEditorHeight(window.innerHeight - 200);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    // 코드 실행 함수
     const runCode = async () => {
         setIsLoading(true); // 로딩 시작
         try {
@@ -41,6 +29,18 @@ const App = ({ darkMode, setDarkMode }) => {
         }
         setIsLoading(false); // 로딩 종료
     };
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (editorRef.current) {
+                editorRef.current.layout();
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -80,15 +80,18 @@ const App = ({ darkMode, setDarkMode }) => {
                 </Toolbar>
             </AppBar>
             <Box sx={{ display: 'flex', flexGrow: 1, mt: 2, mx: '10px', mb: '10px', gap: '10px' }}>
-                <Paper sx={{ flex: 6, p: 2, display: 'flex', flexDirection: 'column' }}>
+                <Paper sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                     <Typography variant="h6">Code Input</Typography>
                     <Editor
-                        height={`${editorHeight}px`}
+                        height="100%"
                         language={language}
                         value={code}
                         theme={darkMode ? 'vs-dark' : 'vs-light'}
                         onChange={(newValue) => setCode(newValue || '')}
                         options={{ fontSize }}
+                        onMount={(editor) => {
+                            editorRef.current = editor;
+                        }}
                     />
                 </Paper>
                 <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
@@ -97,9 +100,9 @@ const App = ({ darkMode, setDarkMode }) => {
                     </IconButton>
                     <Typography variant="body1">Run!</Typography>
                 </Box>
-                <Paper sx={{ flex: 4, p: 2, display: 'flex', flexDirection: 'column', backgroundColor: darkMode ? '#333' : '#ddd' }}>
+                <Paper sx={{ flex: 1, p: 2, display: 'flex', flexDirection: 'column', backgroundColor: darkMode ? '#333' : '#ddd', overflow: 'hidden' }}>
                     <Typography variant="h6">Output</Typography>
-                    <Box sx={{ flexGrow: 1, p: 2, overflow: 'auto', height: `${editorHeight - 50}px`, backgroundColor: darkMode ? '#444' : '#eee' }}>
+                    <Box sx={{ flexGrow: 1, p: 2, overflow: 'auto', backgroundColor: darkMode ? '#444' : '#eee' }}>
                         {isLoading ? (
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                                 <CircularProgress />
