@@ -23,6 +23,9 @@ RUN wget -q "https://packages.microsoft.com/config/ubuntu/20.04/packages-microso
 # Install PowerShell
 RUN apt-get update && apt-get install -y powershell
 
+# Ensure PowerShell is available in PATH
+RUN ln -s /usr/bin/pwsh /usr/bin/powershell
+
 # Copy the rest of the application code
 COPY . .
 
