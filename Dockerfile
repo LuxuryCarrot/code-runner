@@ -27,13 +27,15 @@ RUN apt-get update && apt-get install -y powershell
 COPY . .
 
 # Build the client
-RUN cd client && npm install && npm run build
+WORKDIR /app/code-runner-client
+RUN npm install && npm run build
 
 # Install server dependencies
-RUN cd server && npm install
+WORKDIR /app/code-runner-server
+RUN npm install
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Define the command to run the app
-CMD ["node", "code-runner-server/server.js"]
+CMD ["node", "server.js"]
