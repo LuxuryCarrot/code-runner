@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/code-runner/static/css/main.79efdb4e.css",
-    "main.js": "/code-runner/static/js/main.12edb546.js",
+    "main.css": "/code-runner/static/css/main.6d463d38.css",
+    "main.js": "/code-runner/static/js/main.d49a028c.js",
     "index.html": "/code-runner/index.html",
-    "main.79efdb4e.css.map": "/code-runner/static/css/main.79efdb4e.css.map",
-    "main.12edb546.js.map": "/code-runner/static/js/main.12edb546.js.map"
+    "main.6d463d38.css.map": "/code-runner/static/css/main.6d463d38.css.map",
+    "main.d49a028c.js.map": "/code-runner/static/js/main.d49a028c.js.map"
   },
   "entrypoints": [
-    "static/css/main.79efdb4e.css",
-    "static/js/main.12edb546.js"
+    "static/css/main.6d463d38.css",
+    "static/js/main.d49a028c.js"
   ]
 }
