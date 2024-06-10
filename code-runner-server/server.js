@@ -31,7 +31,7 @@ app.post('/run', (req, res) => {
         if (language === 'python') {
             command = `python3 "${tempFilePath}"`;
         } else if (language === 'powershell') {
-            command = `powershell -ExecutionPolicy Bypass -File "${tempFilePath}"`;
+            command = `pwsh "${tempFilePath}"`;
         } else {
             command = `node "${tempFilePath}"`;
         }
