@@ -51,6 +51,21 @@ pre {
   box-sizing: border-box; /* 패딩과 보더를 너비와 높이에 포함시킵니다. */
 }
 
+pre .keyword {
+  color: #0000FF;
+}
+
+pre .string {
+  color: #A020F0;
+}
+
+pre .number {
+  color: #FF0000;
+}
+
+pre .comment {
+  color: #008000;
+}
 
 .App-logo {
   height: 40vmin;

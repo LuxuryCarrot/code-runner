@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 app.post('/run', (req, res) => {
     const { code, language } = req.body;
-    const tempFileName = `temp-${uuidv4()}.${language === 'python' ? 'py' : 'js'}`;
+    const tempFileName = `temp-${uuidv4()}.${language === 'python' ? 'py' : language === 'powershell' ? 'ps1' : 'js'}`;
     const tempFilePath = path.join(__dirname, tempFileName);
 
     console.log(`Received code: ${code}`);
@@ -27,7 +27,14 @@ app.post('/run', (req, res) => {
             return;
         }
 
-        const command = language === 'python' ? `python3 "${tempFilePath}"` : `node "${tempFilePath}"`;
+        let command;
+        if (language === 'python') {
+            command = `python3 "${tempFilePath}"`;
+        } else if (language === 'powershell') {
+            command = `powershell -ExecutionPolicy Bypass -File "${tempFilePath}"`;
+        } else {
+            command = `node "${tempFilePath}"`;
+        }
 
         console.log(`Executing code with command: ${command}`);
 

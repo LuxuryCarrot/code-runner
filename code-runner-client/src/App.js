@@ -6,6 +6,8 @@ import {
 } from '@mui/material';
 import Editor from '@monaco-editor/react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { solarizedDarkAtom, solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './App.css';
 
 const App = ({ darkMode, setDarkMode }) => {
@@ -14,21 +16,22 @@ const App = ({ darkMode, setDarkMode }) => {
     const [result, setResult] = useState('');
     const [executionTime, setExecutionTime] = useState(null);
     const [memoryUsed, setMemoryUsed] = useState(null);
-    const [fontSize, setFontSize] = useState(14); // 기본 폰트 크기
-    const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+    const [fontSize, setFontSize] = useState(14);
+    const [isLoading, setIsLoading] = useState(false);
     const editorRef = useRef(null);
 
     const runCode = async () => {
-        setIsLoading(true); // 로딩 시작
+        setIsLoading(true);
         try {
             const response = await axios.post('https://code-runner-o7nm.onrender.com/run', { code, language });
+            /*const response = await axios.post('http://localhost:3001/run', { code, language });*/
             setResult(response.data.output || response.data.error);
             setExecutionTime(response.data.executionTime);
             setMemoryUsed(response.data.memoryUsed);
         } catch (error) {
             setResult('Error: ' + error.message);
         }
-        setIsLoading(false); // 로딩 종료
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -42,6 +45,21 @@ const App = ({ darkMode, setDarkMode }) => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    // 직접 구문 강조를 적용하는 함수
+    const highlightSyntax = (text) => {
+        if (!text) return '';
+        const keywordPattern = /\b(async|await|if|else|for|while|function|return|const|let|var|class|import|from|export|default|new|try|catch|finally|throw)\b/g;
+        const stringPattern = /("[^"]*"|'[^']*')/g;
+        const numberPattern = /\b\d+(\.\d+)?\b/g;
+        const commentPattern = /(\/\*[\s\S]*?\*\/|\/\/.*$)/gm;
+
+        return text
+            .replace(keywordPattern, '<span class="keyword">$1</span>')
+            .replace(stringPattern, '<span class="string">$1</span>')
+            .replace(numberPattern, '<span class="number">$&</span>')
+            .replace(commentPattern, '<span class="comment">$&</span>');
+    };
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -62,6 +80,7 @@ const App = ({ darkMode, setDarkMode }) => {
                         >
                             <MenuItem value="javascript">JavaScript</MenuItem>
                             <MenuItem value="python">Python</MenuItem>
+                            <MenuItem value="powershell">PowerShell</MenuItem>
                         </Select>
                     </FormControl>
                     <TextField
@@ -109,7 +128,7 @@ const App = ({ darkMode, setDarkMode }) => {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <pre>{result}</pre>
+                            <pre dangerouslySetInnerHTML={{ __html: highlightSyntax(result) }} />
                         )}
                     </Box>
                     <Box sx={{ mt: 1 }}>
