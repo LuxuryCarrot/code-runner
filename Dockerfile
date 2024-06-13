@@ -47,4 +47,4 @@ WORKDIR /app/code-runner-server
 EXPOSE 3001
 
 # Define the command to run the server
-CMD ["npm", "start", "--prefix", "/app/code-runner-server"]
+CMD ["npm", "start"]

@@ -23,7 +23,7 @@ const App = ({ darkMode, setDarkMode }) => {
     const runCode = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.post('https://code-runner-o7nm.onrender.com/run', { code, language });
+            const response = await axios.post('https://code-runner-1.onrender.com/run', { code, language });
             /*const response = await axios.post('http://localhost:3001/run', { code, language });*/
             setResult(response.data.output || response.data.error);
             setExecutionTime(response.data.executionTime);
