@@ -4,11 +4,18 @@ FROM node:20
 # Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy the root package.json
+COPY package.json ./
 
-# Install dependencies
-RUN npm install
+# Copy the client package.json and package-lock.json
+COPY code-runner-client/package.json code-runner-client/package-lock.json ./code-runner-client/
+
+# Copy the server package.json and package-lock.json
+COPY code-runner-server/package.json code-runner-server/package-lock.json ./code-runner-server/
+
+# Install dependencies for both client and server
+RUN npm install --prefix code-runner-client
+RUN npm install --prefix code-runner-server
 
 # Install dependencies for PowerShell
 RUN apt-get update && apt-get install -y \
@@ -31,14 +38,13 @@ COPY . .
 
 # Build the client
 WORKDIR /app/code-runner-client
-RUN npm install && npm run build
+RUN npm run build
 
-# Install server dependencies
+# Set the working directory for the server
 WORKDIR /app/code-runner-server
-RUN npm install
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 3001
 
-# Define the command to run the app
-CMD ["node", "server.js"]
+# Define the command to run the server
+CMD ["npm", "start", "--prefix", "/app/code-runner-server"]
